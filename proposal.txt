@@ -1,5 +1,9 @@
 1. Modify inotify_init, inotify_add_watch, and related inotify syscalls
-so that inotify can recursively watch all sub-directories.
+so that inotify can recursively watch all sub-directories. Specifically,
+we want to add some of the functionality of fanotify system to inotify.
+Fanotify allows recursive watches but is restrained in several ways to make
+inotify irreplaceable, and we are trying to add some of the advantages of 
+fanotify to inotify to make it better.
 
 2. Currently, if we want to monitor the sub-directories, we need to add
 a separate watch for each sub-directory. We want to modify inotify to
