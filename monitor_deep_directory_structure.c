@@ -34,28 +34,28 @@ void sigint_handler( int signum ){
 int main(int argc, char* args[]){
 	creates=0;
 	deletes=0;
-	cpu_set_t cpuset;
-	CPU_ZERO(&cpuset);
-	// only allow it to run one cpu zero
-	CPU_SET(1, &cpuset);
-	sched_setaffinity(getpid(), 1, &cpuset);
-	if (argc<2){
-		printf("Usage: %s [path to watch]\n", args[0]);
-		exit(EXIT_FAILURE);
-	}
-	char* path;
-	int fd;
-	fd = inotify_init1(0);
-	if (fd==-1){
-		perror("inotify_init1");
- 		exit(EXIT_FAILURE);
-	}else{
-		printf("Successfully initialize inotify.\n");
-		printf("File descriptor number is %d.\n", fd);
-	}
-	int wd;
-	int j;
-	for (j = 1; j < argc; j++) {
+  cpu_set_t cpuset;
+  CPU_ZERO(&cpuset);
+  // only allow it to run one cpu zero
+  CPU_SET(1, &cpuset);
+  sched_setaffinity(getpid(), 1, &cpuset);
+  if (argc<2){
+    printf("Usage: %s [path to watch]\n", args[0]);
+    exit(EXIT_FAILURE);
+  }
+  char* path;
+  int fd;
+  fd = inotify_init1(0);
+  if (fd==-1){
+    perror("inotify_init1");
+    exit(EXIT_FAILURE);
+  }else{
+    printf("Successfully initialize inotify.\n");
+    printf("File descriptor number is %d.\n", fd);
+  }
+  int wd;
+  int j;
+  for (j = 1; j < argc; j++) {
 		wd = inotify_add_watch(fd, args[j], IN_ALL_EVENTS);
 		if (wd == -1){
 			perror("inotify_add_watch_to_all_events");
@@ -80,7 +80,7 @@ int main(int argc, char* args[]){
 	total_diff = 0;
 
 	while(SPIN){
-		char buf[BUF_LEN] __attribute__(
+    char buf[BUF_LEN] __attribute__(
 			(aligned(__alignof__(struct inotify_event))));
 		ssize_t len,i=0;
 
