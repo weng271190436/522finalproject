@@ -99,7 +99,7 @@ int main(int argc, char* args[]){
 			}
 			if(event->mask & IN_DELETE){
 				atomic_fetch_add(&deletes,1);
-				if (deletes == 6000){
+				if (deletes == 12000){
 					clock_gettime(CLOCK_REALTIME, &spec);
 					end_nsec = ((unsigned long long) spec.tv_sec) * BILLION + (unsigned long long) spec.tv_nsec;
 					printf("end_nsec: %llu ns\n", end_nsec);
