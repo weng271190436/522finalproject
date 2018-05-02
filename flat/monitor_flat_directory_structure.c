@@ -20,6 +20,7 @@
 #define MAX_PATH_LEN 100
 #define BILLION 1000000000
 #define MILLION 1000000
+#define SIZE 2000
 
 atomic_int creates;
 atomic_int deletes;
@@ -114,7 +115,7 @@ int main(int argc, char* args[]){
 			}
 			if(event->mask & IN_DELETE){
 				atomic_fetch_add(&deletes,1);
-				if (deletes == 2000){
+				if (deletes == SIZE){
 					clock_gettime(CLOCK_REALTIME, &spec);
 					end_nsec = ((unsigned long long) spec.tv_sec) * BILLION + (unsigned long long) spec.tv_nsec;
 					printf("end_nsec: %llu ns\n", end_nsec);
