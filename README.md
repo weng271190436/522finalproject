@@ -31,7 +31,7 @@ Inotify worked correctly and fast enough.
 
 Usage:
 create 2000 flat directories and run inotify program in one terminal: ./flat/flat_directory.sh
-run 2000 creates and deletes in another terminal: ./flat/monitor_flat_directory_structure
+run 2000 creates and deletes in another terminal: ./flat/create_delete
 
 Purpose:
 Investigate whether inotify can keep up with creates and deletes in a large number of subdirectories in a flat
@@ -66,3 +66,25 @@ Inotify reported 6000 creates and deletes so inotify reported the exact number o
 it is supposed to reported
 Inotify uses 114ms (from first create detected to last delete detected) while the program that 
 creates and deletes programs used 267, 303, 305ms respectively (from immediately before first create to immediately after last delete).
+
+4.2047 creates and deletes in a deep root directory with 2047 nested subdirectories.
+
+Usage:
+create 2047 deep directories and write 2047 paths to a file called args: bash deep/mkdir.sh 10
+run inotify program in one terminal: ./deep/monitor_deep_directory_structure $(cat args)
+run 2047 creates and deletes in another terminal: ./deep/create_delete args
+
+Purpose:
+Investigate whether inotify can keep up with creates and deletes in a large number of subdirectories in a deep
+root directory
+A hypothetical use case: a database where a large number of records are store in a nested format.
+For example, records can be stored in a structure like /organization/name/year/month/day/hour/minute/second
+
+Result:
+Inotify reported 2047 creates and deletes so inotify reported the exact number of creates and deletes that
+it is supposed to reported
+Inotify uses 237ms (from first create detected to last delete detected) while the program that 
+creates and deletes file used 237ms (from immediately before first create to immediately after last delete).
+
+Conclusion:
+Inotify worked correctly and fast enough.
