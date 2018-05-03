@@ -1,7 +1,11 @@
 #!/bin/bash
 
+
+root_path=$(pwd)
+
 make_dir()
 {
+	echo "$(pwd)" >> "$root_path/args"
 	if [[ $1 -gt 0 ]]
 	then
 		mkdir 1
@@ -17,6 +21,6 @@ make_dir()
 
 mkdir deep
 cd deep
-make_dir 3
+make_dir $1
 
 exit 0
