@@ -47,3 +47,22 @@ creates and deletes file used 166ms (from immediately before first create to imm
 
 Conclusion:
 Inotify worked correctly and fast enough.
+
+3.Concurrently run three programs, each making 2000 creates and deletes in a single directory.
+
+Usage:
+run inotify program in one terminal: ./three_processes/monitor_create_delete_in_single_directory three_processes/test_directory
+Concurrently run three programs, each making 2000 creates and deletes in another terminal: bash three_processes/run_three_cores.sh
+
+Purpose: 
+Investigate whether inotify can keep up with fast creates and deletes run concurrently if they happen in a single directory.
+A hypothetical use case: a database where records are frequently created and deleted
+
+Technical details:
+Use clock_gettime(CLOCK_REALTIME, &spec) to get time.
+
+Result (on Raspberry Pi):
+Inotify reported 6000 creates and deletes so inotify reported the exact number of creates and deletes that
+it is supposed to reported
+Inotify uses 114ms (from first create detected to last delete detected) while the program that 
+creates and deletes programs used 267, 303, 305ms respectively (from immediately before first create to immediately after last delete).
